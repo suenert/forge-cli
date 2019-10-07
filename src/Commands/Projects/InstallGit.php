@@ -31,6 +31,7 @@ class InstallGit extends BaseCommand implements NeedsForge
             ->addOption('provider', null, InputOption::VALUE_REQUIRED, 'The provider to use. Must be either "github" or "custom".', 'github')
             ->addOption('repository', null, InputOption::VALUE_REQUIRED, 'The repository to install. Must be in the format "username/repository".')
             ->addOption('branch', null, InputOption::VALUE_OPTIONAL, 'The branch to install. Must be in the format "master".', 'master')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Install a new git project on a site.');
     }
 
@@ -42,7 +43,8 @@ class InstallGit extends BaseCommand implements NeedsForge
         $this->forge->installGitRepositoryOnSite(
             $input->getArgument('server'),
             $input->getArgument('site'),
-            $this->fillData($input->getOptions())
+            $this->fillData($input->getOptions()),
+            $input->getOption('wait')
         );
     }
 }
