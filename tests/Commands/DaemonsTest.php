@@ -111,7 +111,7 @@ class DaemonsTest extends TestCase
     public function it_force_to_reboot_a_running_daemon()
     {
         $this->forge->shouldReceive()
-            ->restartDaemon('12345', '67890');
+            ->restartDaemon('12345', '67890', false);
 
         $this->command(Reboot::class)
             ->execute([

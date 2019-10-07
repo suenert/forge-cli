@@ -12,7 +12,7 @@ class ProjectsTest extends TestCase
     public function it_deletes_a_git_repository_on_a_site()
     {
         $this->forge->shouldReceive()
-            ->destroySiteGitRepository('12345', '6789');
+            ->destroySiteGitRepository('12345', '6789', false);
 
         $this->command(DeleteGit::class)
             ->setInputs(['yes'])
@@ -26,7 +26,7 @@ class ProjectsTest extends TestCase
     public function it_forces_deletition_of_a_git_repository_on_a_site()
     {
         $this->forge->shouldReceive()
-            ->destroySiteGitRepository('12345', '6789');
+            ->destroySiteGitRepository('12345', '6789', false);
 
         $this->command(DeleteGit::class)
             ->execute([
