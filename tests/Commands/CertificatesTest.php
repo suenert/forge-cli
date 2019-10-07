@@ -72,5 +72,20 @@ class CertificatesTest extends TestCase
         ]);
 
         $this->assertStringContainsString('Command Cancelled!', $tester->getDisplay());
+    /** @test */
+    public function it_can_wait_for_activation_of_a_certificate()
+    {
+        $this->forge->shouldReceive()
+            ->activateCertificate('12345', '67890', '13579', true)
+            ->once();
+
+        $tester = $this->command(Activate::class);
+
+        $tester->execute([
+            'server' => '12345',
+            'site' => '67890',
+            'certificate' => '13579',
+            '--wait' => true,
+        ]);
     }
 }

@@ -6,6 +6,7 @@ use Sven\ForgeCLI\Commands\BaseCommand;
 use Sven\ForgeCLI\Contracts\NeedsForge;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Deploy extends BaseCommand implements NeedsForge
@@ -18,6 +19,7 @@ class Deploy extends BaseCommand implements NeedsForge
         $this->setName('deploy:site')
             ->addArgument('server', InputArgument::REQUIRED, 'The id of the server the site to deploy is on.')
             ->addArgument('site', InputArgument::REQUIRED, 'The id of the site to deploy.')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Deploy the given website.');
     }
 
@@ -27,7 +29,9 @@ class Deploy extends BaseCommand implements NeedsForge
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->forge->deploySite(
-            $input->getArgument('server'), $input->getArgument('site')
+            $input->getArgument('server'),
+            $input->getArgument('site'),
+            $input->getOption('wait')
         );
     }
 }

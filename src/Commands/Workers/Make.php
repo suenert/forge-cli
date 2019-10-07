@@ -37,6 +37,7 @@ class Make extends BaseCommand implements NeedsForge
             ->addOption('tries', null, InputOption::VALUE_REQUIRED, 'How often the worker should try processing a job.', null)
             ->addOption('processes', null, InputOption::VALUE_REQUIRED, 'The cound of process the worker should run on.', 1)
             ->addOption('daemon', null, InputOption::VALUE_NONE, 'Whether the worker should be installed as a daemon.')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Create a new worker.');
     }
 
@@ -46,7 +47,10 @@ class Make extends BaseCommand implements NeedsForge
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->forge->createWorker(
-            $input->getArgument('server'), $input->getArgument('site'), $this->fillData($input->getOptions()), false
+            $input->getArgument('server'),
+            $input->getArgument('site'),
+            $this->fillData($input->getOptions()),
+            $input->getOption('wait')
         );
     }
 }

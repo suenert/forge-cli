@@ -24,6 +24,7 @@ class Reboot extends BaseCommand implements NeedsForge
             ->addArgument('site', InputArgument::REQUIRED, 'The id of the site the worker to reboot is on.')
             ->addArgument('worker', InputArgument::REQUIRED, 'The id of the worker to reboot.')
             ->addOption('force', null, InputOption::VALUE_NONE, 'If we want to execute without interaction')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Reboot one of your workers.');
     }
 
@@ -39,7 +40,10 @@ class Reboot extends BaseCommand implements NeedsForge
         }
 
         $this->forge->restartWorker(
-            $input->getArgument('server'), $input->getArgument('site'), $worker, false
+            $input->getArgument('server'),
+            $input->getArgument('site'),
+            $worker,
+            $input->getOption('wait')
         );
     }
 }

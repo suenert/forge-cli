@@ -23,6 +23,7 @@ class Reboot extends BaseCommand implements NeedsForge
             ->addArgument('server', InputArgument::REQUIRED, 'The id of the server the daemon is on.')
             ->addArgument('daemon', InputArgument::REQUIRED, 'The id of the daemon to reboot.')
             ->addOption('force', null, InputOption::VALUE_NONE, 'If we want to execute without interaction')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Restart the given daemon on one of your servers.');
     }
 
@@ -37,6 +38,6 @@ class Reboot extends BaseCommand implements NeedsForge
             return;
         }
 
-        $this->forge->restartDaemon($input->getArgument('server'), $daemon);
+        $this->forge->restartDaemon($input->getArgument('server'), $daemon, $input->getOption('wait'));
     }
 }

@@ -24,6 +24,7 @@ class DeleteGit extends BaseCommand implements NeedsForge
             ->addArgument('server', InputArgument::REQUIRED, 'The id of the server the site is on.')
             ->addArgument('site', InputArgument::REQUIRED, 'The id of the site to delete the git project from.')
             ->addOption('force', null, InputOption::VALUE_NONE, 'If we want to execute without interaction')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Delete a git project from a site.');
     }
 
@@ -37,7 +38,7 @@ class DeleteGit extends BaseCommand implements NeedsForge
         if (! $this->confirmToProceed("You are going to delete the git project from the server with id {$site}.")) {
             return;
         }
-        
-        $this->forge->destroySiteGitRepository($input->getArgument('server'), $site);
+
+        $this->forge->destroySiteGitRepository($input->getArgument('server'), $site, $input->getOption('wait'));
     }
 }

@@ -25,6 +25,7 @@ class Make extends BaseCommand implements NeedsForge
             ->addOption('city', null, InputOption::VALUE_REQUIRED, 'The city you currently live in.')
             ->addOption('organization', null, InputOption::VALUE_REQUIRED, 'The organization the SSL certificate should be issued to.')
             ->addOption('department', null, InputOption::VALUE_REQUIRED, 'The department you work in.')
+            ->addOption('wait', null, InputOption::VALUE_NONE, 'If we should wait for execution')
             ->setDescription('Create a new SSL certificate.');
     }
 
@@ -39,7 +40,7 @@ class Make extends BaseCommand implements NeedsForge
             $input->getArgument('server'),
             $input->getArgument('site'),
             $this->fillData($input->getOptions()),
-            false
+            $input->getOption('wait')
         );
 
         $output->writeln([
