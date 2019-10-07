@@ -49,6 +49,21 @@ class DaemonsTest extends TestCase
     }
 
     /** @test */
+    public function it_force_deletetion_of_a_daemon()
+    {
+        $this->forge->shouldReceive()
+            ->deleteDaemon('12345', '67890');
+
+        $this->command(Delete::class)
+            ->setInputs(['yes'])
+            ->execute([
+                'server' => '12345',
+                'daemon' => '67890',
+                '--force' => true,
+            ]);
+    }
+
+    /** @test */
     public function it_does_not_delete_the_daemon_if_no_is_answered()
     {
         $this->forge->shouldNotReceive()
@@ -69,7 +84,7 @@ class DaemonsTest extends TestCase
             ->createDaemon('12345', [
                 'command' => 'echo \'hello world\' >> /dev/null',
                 'user' => 'forge',
-            ]);
+            ], false);
 
         $this->command(Make::class)->execute([
             'server' => '12345',
@@ -82,13 +97,27 @@ class DaemonsTest extends TestCase
     public function it_reboots_a_running_daemon()
     {
         $this->forge->shouldReceive()
-            ->restartDaemon('12345', '67890');
+            ->restartDaemon('12345', '67890', false);
 
         $this->command(Reboot::class)
             ->setInputs(['yes'])
             ->execute([
                 'server' => '12345',
                 'daemon' => '67890',
+            ]);
+    }
+
+    /** @test */
+    public function it_force_to_reboot_a_running_daemon()
+    {
+        $this->forge->shouldReceive()
+            ->restartDaemon('12345', '67890');
+
+        $this->command(Reboot::class)
+            ->execute([
+                'server' => '12345',
+                'daemon' => '67890',
+                '--force' => true,
             ]);
     }
 
