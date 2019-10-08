@@ -36,7 +36,9 @@ class Update extends BaseCommand implements NeedsForge
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->forge->updateSiteEnvironmentFile(
-            $input->getArgument('server'), $input->getArgument('site'), $this->getFileContent($input, 'file')
+            $input->getArgument('server'),
+            $input->getArgument('site'),
+            $this->getFileContent($input, 'file')
         );
     }
 }
