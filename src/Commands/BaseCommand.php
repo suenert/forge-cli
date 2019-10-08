@@ -194,13 +194,21 @@ abstract class BaseCommand extends Command
      */
     protected function getFileContent(InputInterface $input, $option)
     {
-        $filename = $input->getOption($option) ?? 'php://stdin';
+        $filename = $input->getOption($option);
 
-        if ($filename && ftell(STDIN) !== false) {
-            return file_get_contents($filename);
+        if (!$filename) {
+            if (ftell(STDIN) !== 0) {
+                throw new \InvalidArgumentException('This command requires either the "--'.$option.'" option to be set, or an input from STDIN.');
+            }
+
+            return file_get_contents('php://stdin');
         }
 
-        throw new \InvalidArgumentException('This command requires either the "--'.$option.'" option to be set, or an input from STDIN.');
+        if (!file_exists($filename)) {
+            return $filename;
+        }
+
+        return file_get_contents($filename);
     }
 
     /**
